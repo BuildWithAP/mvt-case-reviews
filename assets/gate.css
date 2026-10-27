@@ -1,0 +1,161 @@
+/* Sign-in screen only. The portal ships its own styles inside the encrypted payload. */
+:root {
+  --bg:        #F3F5F8;
+  --surface:   #FFFFFF;
+  --ink:       #12161D;
+  --ink-2:     #454E5C;
+  --ink-3:     #6C7688;
+  --line:      #D8DEE8;
+  --aster:     #183C84;
+  --stop:      #96341C;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#0D1014; --surface:#151A21; --ink:#E8EBF0; --ink-2:#AEB6C4;
+    --ink-3:#7E8899; --line:#28313D; --aster:#7EA0DE; --stop:#E39D82;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0D1014; --surface:#151A21; --ink:#E8EBF0; --ink-2:#AEB6C4;
+  --ink-3:#7E8899; --line:#28313D; --aster:#7EA0DE; --stop:#E39D82;
+}
+:root[data-theme="light"] {
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#12161D; --ink-2:#454E5C;
+  --ink-3:#6C7688; --line:#D8DEE8; --aster:#183C84; --stop:#96341C;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.gate {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 32px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 36px 34px 30px;
+}
+
+/* Three group marks, evenly weighted, divided rather than crowded */
+.marks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 26px;
+}
+.marks img {
+  height: 26px;
+  width: auto;
+  max-width: 96px;
+  object-fit: contain;
+  display: block;
+}
+.marks img.mark-wellth { height: 30px; }
+/* The chip stays white in both themes so each brand keeps its real colours. */
+
+h1 {
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  margin: 0 0 4px;
+}
+.for {
+  font-size: 14.5px;
+  color: var(--ink-3);
+  margin: 0 0 26px;
+}
+
+form { display: flex; flex-direction: column; gap: 8px; }
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+input {
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 13px;
+  width: 100%;
+  appearance: none;
+  transition: border-color .15s var(--ease), box-shadow .15s var(--ease);
+}
+input::placeholder { color: var(--ink-3); }
+input:focus {
+  outline: none;
+  border-color: var(--aster);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aster) 16%, transparent);
+}
+
+button {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--aster);
+  border: none;
+  border-radius: 8px;
+  padding: 11px 14px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: background .15s var(--ease), opacity .15s var(--ease);
+}
+@media (prefers-color-scheme: dark) { button { color: #0D1014; } }
+:root[data-theme="dark"] button { color: #0D1014; }
+:root[data-theme="light"] button { color: #fff; }
+button:hover:not(:disabled) { background: color-mix(in srgb, var(--aster) 86%, #000); }
+button:disabled { opacity: .55; cursor: default; }
+button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--aster);
+  outline-offset: 2px;
+}
+
+.err {
+  min-height: 20px;
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--stop);
+}
+
+.foot {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-align: center;
+  max-width: 400px;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
