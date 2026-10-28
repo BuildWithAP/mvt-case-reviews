@@ -48,6 +48,7 @@
     var input = document.getElementById('gate-pass');
     var err = document.getElementById('gate-err');
     var btn = form.querySelector('button');
+    var btnLabel = btn.textContent;
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       var pass = input.value.trim();
@@ -57,7 +58,7 @@
         launch(await decrypt(pass));
       } catch (ex) {
         err.textContent = 'That passphrase is not right. Check it with the MVT team and try again.';
-        btn.disabled = false; btn.textContent = 'Open case';
+        btn.disabled = false; btn.textContent = btnLabel;
         input.select();
       }
     });
@@ -75,7 +76,7 @@
   if (cached) { launch(cached); return; }
 
   if (!ENC) {
-    document.getElementById('gate-err').textContent = 'The encrypted case file is missing from this deployment.';
+    document.getElementById('gate-err').textContent = 'The encrypted file is missing from this deployment.';
     return;
   }
   showGate();

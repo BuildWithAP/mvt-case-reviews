@@ -6,6 +6,7 @@ Every case page is encrypted before it is committed (AES-256-GCM, key derived fr
 
 ## Layout
 
+- `index.html` + `content.enc.js` (site root): the **patient list**, gated by the team passphrase. Built from the MVT lead tracker by the private `mvt-case-reviews-src/` folder (`./publish.sh`), never edited here.
 - `assets/`: the shared gate (`gate.js`, `gate.css`) and logo
 - `enq-###/`: one folder per case, named by enquiry reference, never by patient name (URLs are not encrypted). `index.html` is the gate, `content.enc.js` is the encrypted page
 - `tools/encrypt-case.js`: encrypts a plaintext page into a case folder

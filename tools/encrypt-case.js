@@ -6,6 +6,7 @@
 
    Usage:  node tools/encrypt-case.js <case-folder> <plaintext.html> "<passphrase>"
    e.g.    node tools/encrypt-case.js enq-062 ~/cases/review.html "four-random-words-12"
+   The patient list lives at the site root:  node tools/encrypt-case.js . <patients.plain.html> "<team passphrase>"
 
    Name case folders by enquiry reference (enq-062), never by patient name: the
    URL path is not encrypted. To start a new case, copy enq-062/index.html into the
@@ -51,6 +52,6 @@ console.log('Wrote ' + dir + '/content.enc.js (' + (html.length / 1024).toFixed(
 const build = crypto.createHash('sha256').update(out.ct).digest('hex').slice(0, 8);
 const indexPath = path.join(caseDir, 'index.html');
 const index = fs.readFileSync(indexPath, 'utf8')
-  .replace(/((?:\.\.\/assets\/(?:gate\.css|gate\.js))|content\.enc\.js)(\?v=[^"]*)?"/g, (m, f) => `${f}?v=${build}"`);
+  .replace(/((?:(?:\.\.\/)?assets\/(?:gate\.css|gate\.js))|content\.enc\.js)(\?v=[^"]*)?"/g, (m, f) => `${f}?v=${build}"`);
 fs.writeFileSync(indexPath, index);
 console.log('Stamped ' + dir + '/index.html with build ' + build + '.');
