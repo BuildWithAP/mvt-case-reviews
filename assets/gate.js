@@ -11,6 +11,8 @@
      encrypt, so a republished page replaces any copy held in an open tab. */
   var SKEY = 'mvt_case_' + location.pathname + '_' + (ENC && ENC.salt ? ENC.salt.slice(0, 12) : 'none');
 
+  var PKEY = 'mvt_case_team_pass';
+
   function b64ToBuf(s) {
     var bin = atob(s), u = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
@@ -56,6 +58,7 @@
       btn.disabled = true; btn.textContent = 'Unlocking…'; err.textContent = '';
       try {
         launch(await decrypt(pass));
+        try { sessionStorage.setItem(PKEY, pass); } catch (e) {}
       } catch (ex) {
         err.textContent = 'That passphrase is not right. Check it with the MVT team and try again.';
         btn.disabled = false; btn.textContent = btnLabel;
@@ -79,5 +82,14 @@
     document.getElementById('gate-err').textContent = 'The encrypted file is missing from this deployment.';
     return;
   }
-  showGate();
+
+  /* New case pages share the team passphrase. Once it has opened one page in this tab,
+     try it on the next before asking (a case with its own passphrase still prompts). */
+  var known = null;
+  try { known = sessionStorage.getItem(PKEY); } catch (e) {}
+  if (known) {
+    decrypt(known).then(launch, showGate);
+  } else {
+    showGate();
+  }
 })();
