@@ -57,7 +57,11 @@
       if (!pass) return;
       btn.disabled = true; btn.textContent = 'Unlocking…'; err.textContent = '';
       try {
-        launch(await decrypt(pass));
+        /* Phones often capitalise the first letter; the passphrases are lowercase, so retry lowercased. */
+        var html;
+        try { html = await decrypt(pass); }
+        catch (e1) { if (pass.toLowerCase() === pass) throw e1; html = await decrypt(pass.toLowerCase()); }
+        launch(html);
         try { sessionStorage.setItem(PKEY, pass); } catch (e) {}
       } catch (ex) {
         err.textContent = 'That passphrase is not right. Check it with the MVT team and try again.';
